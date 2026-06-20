@@ -1,0 +1,114 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Very Good Security
+providerId: vgs
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Security
+- Tokenization
+- Data Privacy
+- PCI Compliance
+- Vault
+- Plans
+description: >-
+  VGS uses consumption-based pricing tied to the number of interactions with the
+  VGS Vault, where an interaction is each time a token is created or exchanged
+  for sensitive data. The self-serve Starter package is publicly listed as
+  starting at $1,000/month and supports up to ~100M stored records; the Growth
+  package and enterprise terms (network tokens, account updater, PCI compliance
+  subscription, large file transfers, VGS Compute, card attributes) are
+  sales-led with custom pricing. Exact entitlements and per-interaction rates are
+  negotiated, so figures here are not reconciled.
+notes: >-
+  Published entry price is "Starter from $1,000/month"; Growth and enterprise
+  pricing is contact-sales only. Verify current packages and interaction
+  definitions on the VGS pricing page during reconciliation.
+sources:
+- https://www.verygoodsecurity.com/pricing
+- https://docs.verygoodsecurity.com
+plans:
+- id: vgs-starter
+  name: Starter
+  type: usage
+  description: >-
+    Self-serve entry package billed on vault interactions (token creation and
+    data exchange), publicly listed starting at $1,000/month, supporting up to
+    roughly 100M stored records.
+  entries:
+  - label: Vault Interactions
+    name: vault_interactions
+    type: usage
+    metric: interactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: starts at $1,000/month (consumption-based on interactions)
+    userMultiplied: false
+  - label: Stored Records
+    name: stored_records
+    type: tier
+    metric: records
+    limit: 100000000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included up to ~100M records
+    userMultiplied: false
+  elements:
+  - name: Vault Tokenization (Aliases)
+  - name: Inbound / Outbound Proxy Routes
+  - name: VGS Dashboard
+- id: vgs-growth
+  name: Growth
+  type: enterprise
+  description: >-
+    Sales-led package that customizes the payment structure and adds services
+    such as network tokens, account updater, PCI compliance subscription
+    (L1 / L2-L4), VGS-provided auditor, large file transfers, VGS Compute, and
+    card attributes.
+  entries:
+  - label: Custom Agreement
+    name: growth_custom
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Network Tokens
+  - name: Account Updater
+  - name: PCI Compliance Subscription
+  - name: VGS Provided Auditor
+  - name: Large File Transfers
+  - name: VGS Compute
+  - name: Card Attributes
+- id: vgs-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Volume commitments, dedicated compliance support, and negotiated terms for
+    large-scale deployments. Contact VGS sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Compliance Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,62 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Very Good Security
+providerId: vgs
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Security
+- Tokenization
+- Data Privacy
+- PCI Compliance
+- Vault
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  VGS does not publish a single fixed numeric rate-limit table for the Vault and
+  Accounts APIs. Throughput is governed by plan, vault tier, and the
+  consumption-based interaction model, and high-throughput needs are arranged
+  with VGS. Clients should expect throttling under burst load and handle 429
+  responses with backoff. Specific per-endpoint limits are not reconciled in
+  this artifact.
+notes: >-
+  Confirm current request and interaction limits with VGS support or your
+  account manager during reconciliation; limits scale with plan and vault
+  configuration.
+sources:
+- https://docs.verygoodsecurity.com
+- https://www.verygoodsecurity.com/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: Vault API Requests
+  scope: vault
+  metric: requests
+  limit: see provider documentation
+  notes: Tokenization (alias) request throughput governed by plan and vault tier.
+- name: Vault Interactions
+  scope: account
+  metric: interactions
+  limit: plan-dependent
+  notes: Billed consumption unit; token creation and data exchange counts scale with package.
+- name: Accounts API Requests
+  scope: organization
+  metric: requests
+  limit: see provider documentation
+  notes: Control-plane management calls for organizations, vaults, and routes.
+- name: Reveal Operations
+  scope: vault
+  metric: requests
+  limit: disabled by default
+  notes: Bulk and single reveal endpoints are disabled by default and enabled by VGS on request.
+policies:
+- name: Tiered Limits
+  description: Throughput and interaction allowances scale with Starter, Growth, and Enterprise packages.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,105 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Very Good Security
+providerId: vgs
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Security
+- Tokenization
+- Data Privacy
+- PCI Compliance
+- Vault
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Very Good Security spend. VGS bills on consumption, where the
+  primary cost driver is vault interactions (each token creation or exchange of
+  a token for sensitive data), with stored-record volume and add-on services
+  (network tokens, account updater, PCI compliance subscription, large file
+  transfers, VGS Compute) layered on Growth and enterprise agreements. Public
+  pricing is limited to a Starter entry point of $1,000/month, so dollar meters
+  here are not reconciled.
+notes: >-
+  Per-interaction and add-on rates are negotiated and not fully public; verify
+  against the VGS pricing page and your agreement during reconciliation.
+sources:
+- https://www.verygoodsecurity.com/pricing
+- https://docs.verygoodsecurity.com
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Very Good Security
+serviceCategory: Security and Identity
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: VGS Platform
+  ServiceCategory: Security and Identity
+  ProviderName: Very Good Security
+  PublisherName: Very Good Security
+  InvoiceIssuerName: Very Good Security
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: vault_interactions
+  description: Each token creation or exchange of a token for sensitive data through the vault.
+  unit: interactions
+  aggregation: sum
+  dimensions:
+  - organization
+  - vault
+- name: stored_records
+  description: Sensitive records persisted in a vault, counted against package allowances.
+  unit: records
+  aggregation: max
+  dimensions:
+  - organization
+  - vault
+- name: network_tokens
+  description: Network token provisioning and lifecycle operations (Growth add-on).
+  unit: tokens
+  aggregation: sum
+  dimensions:
+  - organization
+  - vault
+- name: compute_invocations
+  description: VGS Compute Function executions inside the security boundary.
+  unit: invocations
+  aggregation: sum
+  dimensions:
+  - organization
+  - vault
+- name: large_file_transfers
+  description: Large file transfer volume handled through VGS (Growth add-on).
+  unit: bytes
+  aggregation: sum
+  dimensions:
+  - organization
+  - vault
+principles:
+- name: Visibility
+  description: Track vault interactions and stored-record counts per vault from the VGS dashboard; map them to packages.
+- name: Allocation
+  description: Use separate vaults per business unit / environment and tag routes to map spend to cost centers.
+- name: Optimization
+  description: Tokenize only the fields that drive PCI/PII scope; reuse reference aliases; retire unused vaults and routes.
+- name: Accountability
+  description: Assign vault owners; review interaction burn and add-on usage monthly against the agreement.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

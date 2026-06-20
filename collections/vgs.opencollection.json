@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Very Good Security (VGS) API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Aliases (Vault API)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create aliases",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sandbox.verygoodvault.com/aliases",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\"bank-account\"],\n      \"format\": \"UUID\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}"
+            }
+          },
+          "docs": "Stores multiple values at once and returns their aliases."
+        },
+        {
+          "info": {
+            "name": "Reveal multiple aliases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/aliases?q=tok_sandbox_5UpnbMvaihRuRwz5QXwBFw,tok_sandbox_9ToiJHedw1nE1Jfx1qYYgz"
+          },
+          "docs": "Given a list of aliases, retrieves all associated values. Disabled by default."
+        },
+        {
+          "info": {
+            "name": "Reveal single alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/{{alias}}"
+          },
+          "docs": "Retrieves a stored value along with its aliases. Disabled by default."
+        },
+        {
+          "info": {
+            "name": "Update data classifiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/{{alias}}",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"data\": {\n    \"classifiers\": [\"credit-cards\", \"PII\"]\n  }\n}"
+            }
+          },
+          "docs": "Apply new classifiers to the value the alias is associated with."
+        },
+        {
+          "info": {
+            "name": "Delete alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/{{alias}}"
+          },
+          "docs": "Removes a single alias."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts (Control Plane)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accounts.apps.verygoodsecurity.com/organizations",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reads organization details (organizations:read scope)."
+        },
+        {
+          "info": {
+            "name": "List vaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accounts.apps.verygoodsecurity.com/vaults",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists vaults in the organization (vaults:read scope)."
+        },
+        {
+          "info": {
+            "name": "Create vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accounts.apps.verygoodsecurity.com/vaults",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            },
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"My Vault\",\n  \"environment\": \"SANDBOX\"\n}"
+            }
+          },
+          "docs": "Creates a new vault (vaults:write scope)."
+        },
+        {
+          "info": {
+            "name": "List routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accounts.apps.verygoodsecurity.com/vaults/{{vaultId}}/routes",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists inbound and outbound proxy routes on the vault (routes:read scope)."
+        },
+        {
+          "info": {
+            "name": "Create route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accounts.apps.verygoodsecurity.com/vaults/{{vaultId}}/routes",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            },
+            "body": {
+              "type": "json",
+              "data": "{\n  \"type\": \"OUTBOUND\",\n  \"protocol\": \"HTTP\",\n  \"host_endpoint\": \"api.example.com\"\n}"
+            }
+          },
+          "docs": "Creates an inbound or outbound proxy route (routes:write scope)."
+        }
+      ]
+    }
+  ]
+}

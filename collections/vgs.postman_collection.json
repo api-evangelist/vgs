@@ -1,0 +1,276 @@
+{
+  "info": {
+    "_postman_id": "b1f3c7a2-9d44-4e51-8a6c-2f0d8e1a5c90",
+    "name": "Very Good Security (VGS) API",
+    "description": "Tokenization (Vault HTTP API) and control-plane (Accounts API) operations for Very Good Security. Vault endpoints use HTTP Basic auth; Accounts endpoints use a Bearer access token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "vaultBaseUrl",
+      "value": "https://api.sandbox.verygoodvault.com"
+    },
+    {
+      "key": "accountsBaseUrl",
+      "value": "https://accounts.apps.verygoodsecurity.com"
+    },
+    {
+      "key": "username",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
+    },
+    {
+      "key": "alias",
+      "value": "tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e"
+    },
+    {
+      "key": "vaultId",
+      "value": "tntabcdefg"
+    }
+  ],
+  "item": [
+    {
+      "name": "Aliases (Vault API)",
+      "item": [
+        {
+          "name": "Create aliases",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\"bank-account\"],\n      \"format\": \"UUID\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{vaultBaseUrl}}/aliases",
+              "host": ["{{vaultBaseUrl}}"],
+              "path": ["aliases"]
+            },
+            "description": "Stores multiple values at once and returns their aliases."
+          },
+          "response": []
+        },
+        {
+          "name": "Reveal multiple aliases",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{vaultBaseUrl}}/aliases?q={{alias}}",
+              "host": ["{{vaultBaseUrl}}"],
+              "path": ["aliases"],
+              "query": [
+                { "key": "q", "value": "{{alias}}" }
+              ]
+            },
+            "description": "Given a list of aliases, retrieves all associated values. Disabled by default."
+          },
+          "response": []
+        },
+        {
+          "name": "Reveal single alias",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{vaultBaseUrl}}/aliases/{{alias}}",
+              "host": ["{{vaultBaseUrl}}"],
+              "path": ["aliases", "{{alias}}"]
+            },
+            "description": "Retrieves a stored value along with its aliases. Disabled by default."
+          },
+          "response": []
+        },
+        {
+          "name": "Update data classifiers",
+          "request": {
+            "method": "PUT",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"classifiers\": [\"credit-cards\", \"PII\"]\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{vaultBaseUrl}}/aliases/{{alias}}",
+              "host": ["{{vaultBaseUrl}}"],
+              "path": ["aliases", "{{alias}}"]
+            },
+            "description": "Apply new classifiers to the value the alias is associated with."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete alias",
+          "request": {
+            "method": "DELETE",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{username}}" },
+                { "key": "password", "value": "{{password}}" }
+              ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{vaultBaseUrl}}/aliases/{{alias}}",
+              "host": ["{{vaultBaseUrl}}"],
+              "path": ["aliases", "{{alias}}"]
+            },
+            "description": "Removes a single alias."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Accounts (Control Plane)",
+      "item": [
+        {
+          "name": "List organizations",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [ { "key": "token", "value": "{{bearerToken}}" } ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{accountsBaseUrl}}/organizations",
+              "host": ["{{accountsBaseUrl}}"],
+              "path": ["organizations"]
+            },
+            "description": "Reads organization details (organizations:read scope)."
+          },
+          "response": []
+        },
+        {
+          "name": "List vaults",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [ { "key": "token", "value": "{{bearerToken}}" } ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{accountsBaseUrl}}/vaults",
+              "host": ["{{accountsBaseUrl}}"],
+              "path": ["vaults"]
+            },
+            "description": "Lists vaults in the organization (vaults:read scope)."
+          },
+          "response": []
+        },
+        {
+          "name": "Create vault",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [ { "key": "token", "value": "{{bearerToken}}" } ]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Vault\",\n  \"environment\": \"SANDBOX\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{accountsBaseUrl}}/vaults",
+              "host": ["{{accountsBaseUrl}}"],
+              "path": ["vaults"]
+            },
+            "description": "Creates a new vault (vaults:write scope)."
+          },
+          "response": []
+        },
+        {
+          "name": "List routes",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [ { "key": "token", "value": "{{bearerToken}}" } ]
+            },
+            "header": [],
+            "url": {
+              "raw": "{{accountsBaseUrl}}/vaults/{{vaultId}}/routes",
+              "host": ["{{accountsBaseUrl}}"],
+              "path": ["vaults", "{{vaultId}}", "routes"]
+            },
+            "description": "Lists inbound and outbound proxy routes on the vault (routes:read scope)."
+          },
+          "response": []
+        },
+        {
+          "name": "Create route",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [ { "key": "token", "value": "{{bearerToken}}" } ]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"OUTBOUND\",\n  \"protocol\": \"HTTP\",\n  \"host_endpoint\": \"api.example.com\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{accountsBaseUrl}}/vaults/{{vaultId}}/routes",
+              "host": ["{{accountsBaseUrl}}"],
+              "path": ["vaults", "{{vaultId}}", "routes"]
+            },
+            "description": "Creates an inbound or outbound proxy route (routes:write scope)."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

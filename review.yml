@@ -1,0 +1,91 @@
+aid: vgs
+name: Very Good Security
+review:
+  question: Does Very Good Security (VGS) expose a documented public WebSocket or streaming API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. VGS does not document a public WebSocket
+    (ws:// / wss://) surface, nor an HTTP Server-Sent Events (SSE) streaming
+    endpoint, for the Vault API or the Accounts API. The platform's real-time
+    behavior is the synchronous proxy data plane (inbound reverse proxy and
+    outbound forward proxy over HTTPS/CONNECT), which is request/response, not a
+    message-driven streaming API. Under the current API Evangelist scope (SSE in
+    scope for AsyncAPI, WebSocket in scope), there is no qualifying transport to
+    model.
+findings:
+  summary: |
+    Very Good Security exposes documented REST APIs only. The VGS Vault HTTP API
+    (api.sandbox.verygoodvault.com / api.live.verygoodvault.com /
+    api.live-eu-1.verygoodvault.com) handles tokenization through the /aliases
+    endpoints with HTTP Basic authentication. The VGS Accounts / control-plane
+    API (accounts.apps.verygoodsecurity.com) manages organizations, vaults, and
+    routes using a Bearer access token obtained via the OAuth2
+    client-credentials flow. The data plane is delivered as inbound (reverse)
+    and outbound (forward) HTTP proxies on the verygoodproxy.com hosts (forward
+    proxy on port 8443) using Basic credentials. No WebSocket or SSE streaming
+    endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.sandbox.verygoodvault.com
+      documented: true
+      note: Vault HTTP API (aliases / tokenization), HTTP Basic auth.
+    - protocol: REST
+      scheme: https
+      baseURL: https://accounts.apps.verygoodsecurity.com
+      documented: true
+      note: Accounts / control-plane API (organizations, vaults, routes), Bearer auth.
+    - protocol: HTTP Proxy
+      scheme: https
+      baseURL: https://{vault-id}.sandbox.verygoodproxy.com
+      documented: true
+      note: Inbound (reverse) and outbound (forward, port 8443) proxy data plane; Basic auth. Request/response, not streaming.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented for any VGS product.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming endpoint is documented for any VGS product.
+  endpointsConfirmedRest:
+    - POST   https://api.sandbox.verygoodvault.com/aliases
+    - GET    https://api.sandbox.verygoodvault.com/aliases
+    - GET    https://api.sandbox.verygoodvault.com/aliases/{alias}
+    - PUT    https://api.sandbox.verygoodvault.com/aliases/{alias}
+    - DELETE https://api.sandbox.verygoodvault.com/aliases/{alias}
+    - GET    https://accounts.apps.verygoodsecurity.com/organizations
+    - GET    https://accounts.apps.verygoodsecurity.com/vaults
+    - POST   https://accounts.apps.verygoodsecurity.com/vaults
+    - GET    https://accounts.apps.verygoodsecurity.com/vaults/{vaultId}/routes
+    - POST   https://accounts.apps.verygoodsecurity.com/vaults/{vaultId}/routes
+sources:
+  - url: https://www.verygoodsecurity.com/docs/vault/api/
+    type: APIReference
+    note: VGS Vault HTTP API reference; lists /aliases endpoints, verygoodvault.com hosts, HTTP Basic auth.
+  - url: https://github.com/verygoodsecurity/vgs-api-client-typescript
+    type: SDK
+    note: Generated TypeScript client containing the canonical Vault API OpenAPI (api.yaml) used to model the /aliases operations and schemas.
+  - url: https://docs.verygoodsecurity.com/vault/developer-tools/apis/vault-api/authentication-and-authorization
+    type: Documentation
+    note: Vault API auth - HTTP Basic credentials and OAuth2 scopes (aliases:read / write / delete).
+  - url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
+    type: Documentation
+    note: Accounts API service-account scopes (vaults:read/write, routes:read/write, organizations:read, access-logs:read) and Bearer token flow.
+  - url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
+    type: Documentation
+    note: Outbound (forward) proxy on port 8443 with Basic auth; inbound reverse proxy on verygoodproxy.com. No streaming transport.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket or SSE surface exists for VGS. The catalog models the REST
+    Vault API, the REST Accounts / control-plane API, and the HTTP proxy data
+    plane only. No AsyncAPI document was authored because there is no qualifying
+    streaming transport to represent.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
