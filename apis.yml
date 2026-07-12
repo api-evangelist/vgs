@@ -127,6 +127,12 @@ apis:
     access logs through the VGS Accounts control plane, governed by service-account
     scopes (organizations:read, access-logs:read) and Bearer authentication.
 common:
+- type: TrustCenter
+  url: security/vgs-trust-center.yml
+- type: DomainSecurity
+  url: security/vgs-domain-security.yml
+- type: Authentication
+  url: authentication/vgs-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/verygoodsecurity
 - type: LinkedIn
