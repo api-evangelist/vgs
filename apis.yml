@@ -127,6 +127,8 @@ apis:
     access logs through the VGS Accounts control plane, governed by service-account
     scopes (organizations:read, access-logs:read) and Bearer authentication.
 common:
+- type: AgenticAccess
+  url: agentic-access/vgs-agentic-access.yml
 - type: TrustCenter
   url: security/vgs-trust-center.yml
 - type: DomainSecurity
