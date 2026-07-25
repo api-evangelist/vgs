@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: Very Good Security (VGS) aliases vaults API
+  description: Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.
+  termsOfService: https://www.verygoodsecurity.com/terms
+  contact:
+    name: VGS Support
+    email: support@verygoodsecurity.com
+  version: '1.0'
+servers:
+- url: https://api.sandbox.verygoodvault.com
+  description: Vault API - Sandbox
+- url: https://api.live.verygoodvault.com
+  description: Vault API - Live
+- url: https://api.live-eu-1.verygoodvault.com
+  description: Vault API - Live EU
+- url: https://accounts.apps.verygoodsecurity.com
+  description: Accounts (control plane) API
+tags:
+- name: vaults
+  description: Vault resources on the VGS Accounts API.
+paths:
+  /vaults:
+    get:
+      operationId: listVaults
+      tags:
+      - vaults
+      summary: List vaults
+      description: Lists the vaults in the organization, including name and identifier (requires the vaults:read scope).
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    post:
+      operationId: createVault
+      tags:
+      - vaults
+      summary: Create vault
+      description: Creates a new vault in the organization (requires the vaults:write scope).
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /vaults/{vaultId}:
+    parameters:
+    - $ref: '#/components/parameters/vaultId'
+    get:
+      operationId: getVault
+      tags:
+      - vaults
+      summary: Get vault
+      description: Retrieves a single vault by identifier (vaults:read scope).
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+components:
+  parameters:
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
+  schemas:
+    VaultCreateRequest:
+      type: object
+      required:
+      - name
+      - environment
+      properties:
+        name:
+          type: string
+          description: Human-readable vault name.
+        environment:
+          type: string
+          enum:
+          - SANDBOX
+          - LIVE
+          description: Vault environment to create.
+        organization_id:
+          type: string
+          description: Owning organization identifier.
+    Vault:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Vault identifier (tenant id).
+          example: tntabcdefg
+        name:
+          type: string
+          description: Human-readable vault name.
+        environment:
+          type: string
+          enum:
+          - SANDBOX
+          - LIVE
+          description: Vault environment.
+        organization_id:
+          type: string
+          description: Owning organization identifier.
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication used by the VGS Vault HTTP API. Username and password are the vault access credentials generated in the VGS dashboard.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer access token used by the VGS Accounts API. Obtain the token from the OAuth2 client-credentials endpoint at https://auth.verygoodsecurity.com/auth/realms/vgs/protocol/openid-connect/token using a service-account client id and secret, then pass it as Authorization: Bearer <token>.'
