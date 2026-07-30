@@ -9,7 +9,20 @@ description: Very Good Security (VGS) is a data security and tokenization platfo
   (aliases / redact / reveal), an Accounts management API for vaults, routes, and
   organizations, and a forward/reverse Proxy that aliases and de-aliases data in
   transit.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vgs.png
 tags:
 - Security
 - Tokenization
@@ -20,112 +33,126 @@ created: '2026-06-20'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-- aid: vgs:vgs-vault-tokenization-api
-  name: VGS Vault Tokenization API
-  tags:
-  - Tokenization
-  - Aliases
-  - Vault
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: vgs:vgs-aliases-api
+  name: Very Good Security aliases API
+  description: Tokenization operations on the VGS Vault HTTP API.
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
-  properties:
-  - url: https://docs.verygoodsecurity.com/vault/tokens
-    type: Documentation
-  - url: https://www.verygoodsecurity.com/docs/vault/api/
-    type: APIReference
-  - url: openapi/vgs-openapi.yml
-    type: OpenAPI
-  - url: collections/vgs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/vgs.opencollection.json
-    type: OpenCollection
-  description: The VGS Vault HTTP API stores, retrieves, and manages sensitive values
-    as aliases (tokens). Create aliases by value or by reference, reveal single or
-    multiple aliases, update data classifiers, and delete aliases. Supports many
-    alias formats (UUID, FPE_SIX_T_FOUR, NUM_LENGTH_PRESERVING, and more) and
-    PERSISTENT or VOLATILE storage. Authenticated with HTTP Basic access credentials.
-- aid: vgs:vgs-accounts-management-api
-  name: VGS Accounts Management API
   tags:
-  - Management
-  - Vaults
-  - Organizations
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.verygoodsecurity.com/vault/platform/iam
-  baseURL: https://accounts.apps.verygoodsecurity.com
+  - aliases
   properties:
-  - url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
-    type: Documentation
-  - url: https://docs.verygoodsecurity.com/vault/platform/iam
-    type: APIReference
-  - url: openapi/vgs-openapi.yml
-    type: OpenAPI
-  - url: collections/vgs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/vgs.opencollection.json
-    type: OpenCollection
-  description: The VGS Accounts / control plane API administers organizations and
-    vaults, reads account and access-log details, and manages the resources behind
-    the platform. Authenticated with a Bearer access token obtained from the VGS
-    OAuth2 client-credentials endpoint, with service-account scopes such as
-    vaults:read, vaults:write, organizations:read, and access-logs:read.
-- aid: vgs:vgs-routes-proxy-api
-  name: VGS Routes & Proxy API
-  tags:
-  - Proxy
-  - Routes
-  - Inbound Outbound
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
-  baseURL: https://accounts.apps.verygoodsecurity.com
-  properties:
-  - url: https://docs.verygoodsecurity.com/vault/http-proxy/inbound-connection
-    type: Documentation
-  - url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
-    type: APIReference
-  - url: openapi/vgs-openapi.yml
-    type: OpenAPI
-  description: Manage inbound (reverse) and outbound (forward) proxy routes that
-    redact and reveal sensitive data in transit. Routes are CRUD-managed through the
-    Accounts API and applied to a vault; the data plane is reached over the proxy
-    hosts (for example {vault-id}.sandbox.verygoodproxy.com for inbound and the
-    forward proxy on port 8443 for outbound) using HTTP Basic credentials.
-- aid: vgs:vgs-functions-api
-  name: VGS Functions API
-  tags:
-  - Functions
-  - Compute
-  - Serverless
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
-  baseURL: https://accounts.apps.verygoodsecurity.com
-  properties:
-  - url: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
-    type: Documentation
-  - url: openapi/vgs-openapi.yml
-    type: OpenAPI
-  description: VGS Compute Functions run custom code inside the VGS security boundary
-    to transform sensitive payloads (for example reformatting, enrichment, or custom
-    tokenization) as part of a route, managed through the Accounts API and bound to
-    a vault.
+  - type: OpenAPI
+    url: openapi/vgs-aliases-api-openapi.yml
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/tokens
+  - type: APIReference
+    url: https://www.verygoodsecurity.com/docs/vault/api/
+  - type: PostmanCollection
+    url: collections/vgs.postman_collection.json
+  - type: OpenCollection
+    url: collections/vgs.opencollection.json
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/inbound-connection
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
 - aid: vgs:vgs-organizations-api
-  name: VGS Organizations API
+  name: Very Good Security organizations API
+  description: Organization resources on the VGS Accounts API.
+  humanURL: https://www.verygoodsecurity.com/docs/vault/api/
+  baseURL: https://api.sandbox.verygoodvault.com
   tags:
-  - Organizations
-  - IAM
-  - Access Logs
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.verygoodsecurity.com/vault/platform/iam
-  baseURL: https://accounts.apps.verygoodsecurity.com
+  - organizations
   properties:
-  - url: https://docs.verygoodsecurity.com/vault/platform/iam
-    type: Documentation
-  - url: openapi/vgs-openapi.yml
-    type: OpenAPI
-  description: Read organization details, members, vault assignments, and tenant
-    access logs through the VGS Accounts control plane, governed by service-account
-    scopes (organizations:read, access-logs:read) and Bearer authentication.
+  - type: OpenAPI
+    url: openapi/vgs-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/tokens
+  - type: APIReference
+    url: https://www.verygoodsecurity.com/docs/vault/api/
+  - type: PostmanCollection
+    url: collections/vgs.postman_collection.json
+  - type: OpenCollection
+    url: collections/vgs.opencollection.json
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/inbound-connection
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+- aid: vgs:vgs-routes-api
+  name: Very Good Security routes API
+  description: Inbound / outbound proxy route resources on the VGS Accounts API.
+  humanURL: https://www.verygoodsecurity.com/docs/vault/api/
+  baseURL: https://api.sandbox.verygoodvault.com
+  tags:
+  - routes
+  properties:
+  - type: OpenAPI
+    url: openapi/vgs-routes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/tokens
+  - type: APIReference
+    url: https://www.verygoodsecurity.com/docs/vault/api/
+  - type: PostmanCollection
+    url: collections/vgs.postman_collection.json
+  - type: OpenCollection
+    url: collections/vgs.opencollection.json
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/inbound-connection
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+- aid: vgs:vgs-vaults-api
+  name: Very Good Security vaults API
+  description: Vault resources on the VGS Accounts API.
+  humanURL: https://www.verygoodsecurity.com/docs/vault/api/
+  baseURL: https://api.sandbox.verygoodvault.com
+  tags:
+  - vaults
+  properties:
+  - type: OpenAPI
+    url: openapi/vgs-vaults-api-openapi.yml
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/tokens
+  - type: APIReference
+    url: https://www.verygoodsecurity.com/docs/vault/api/
+  - type: PostmanCollection
+    url: collections/vgs.postman_collection.json
+  - type: OpenCollection
+    url: collections/vgs.opencollection.json
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/developer-tools/vgs-cli/service-account
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/inbound-connection
+  - type: APIReference
+    url: https://docs.verygoodsecurity.com/vault/http-proxy/outbound-connection
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/vgs-compute/functions
+  - type: Documentation
+    url: https://docs.verygoodsecurity.com/vault/platform/iam
 common:
 - type: AgenticAccess
   url: agentic-access/vgs-agentic-access.yml
