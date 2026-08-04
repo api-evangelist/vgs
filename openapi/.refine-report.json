@@ -1,0 +1,20 @@
+{
+  "provider": "vgs",
+  "sources": [
+    "vgs-aliases-api-openapi.yml",
+    "vgs-organizations-api-openapi.yml",
+    "vgs-routes-api-openapi.yml",
+    "vgs-vaults-api-openapi.yml"
+  ],
+  "outputs": [
+    "vgs-aliases-api-openapi.yml",
+    "vgs-organizations-api-openapi.yml",
+    "vgs-routes-api-openapi.yml",
+    "vgs-vaults-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

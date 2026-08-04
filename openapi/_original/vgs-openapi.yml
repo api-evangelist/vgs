@@ -1,0 +1,688 @@
+openapi: 3.0.1
+info:
+  title: Very Good Security (VGS) API
+  description: >-
+    Specification of the public Very Good Security (VGS) APIs. Covers the VGS
+    Vault HTTP API for tokenization (create / reveal / update / delete aliases)
+    served from the verygoodvault.com hosts with HTTP Basic authentication, and
+    the VGS Accounts (control plane) API for managing organizations, vaults, and
+    routes served from accounts.apps.verygoodsecurity.com with a Bearer access
+    token obtained via the OAuth2 client-credentials flow. Endpoint shapes for
+    the Vault API mirror the published VGS Vault API reference; Accounts
+    resources are modeled from VGS platform / IAM documentation.
+  termsOfService: https://www.verygoodsecurity.com/terms
+  contact:
+    name: VGS Support
+    email: support@verygoodsecurity.com
+  version: '1.0'
+servers:
+  - url: https://api.sandbox.verygoodvault.com
+    description: Vault API - Sandbox
+  - url: https://api.live.verygoodvault.com
+    description: Vault API - Live
+  - url: https://api.live-eu-1.verygoodvault.com
+    description: Vault API - Live EU
+  - url: https://accounts.apps.verygoodsecurity.com
+    description: Accounts (control plane) API
+tags:
+  - name: aliases
+    description: Tokenization operations on the VGS Vault HTTP API.
+  - name: organizations
+    description: Organization resources on the VGS Accounts API.
+  - name: vaults
+    description: Vault resources on the VGS Accounts API.
+  - name: routes
+    description: Inbound / outbound proxy route resources on the VGS Accounts API.
+paths:
+  /aliases:
+    post:
+      operationId: createAliases
+      tags:
+        - aliases
+      summary: Create aliases
+      description: >-
+        Stores multiple values at once and returns their aliases. May also be
+        used to associate additional (secondary) aliases with the same
+        underlying data as a reference alias. You cannot reference the same
+        alias more than once in a single request.
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAliasesRequest'
+            examples:
+              createNew:
+                summary: Create a new alias
+                value:
+                  data:
+                    - value: '122105155'
+                      classifiers:
+                        - bank-account
+                      format: UUID
+                      storage: PERSISTENT
+              reference:
+                summary: Reference an existing alias
+                value:
+                  data:
+                    - alias: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+                      format: RAW_UUID
+                      storage: PERSISTENT
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: List of stored values along with their aliases.
+                    items:
+                      $ref: '#/components/schemas/RevealedData'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    get:
+      operationId: revealMultipleAliases
+      tags:
+        - aliases
+      summary: Reveal multiple aliases
+      description: >-
+        Given a list of aliases, retrieves all associated values stored in the
+        vault. This endpoint may expose sensitive data and is disabled by
+        default; contact VGS to enable it.
+      security:
+        - basicAuth: []
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Comma-separated list of aliases to reveal.
+          schema:
+            type: string
+          example: tok_sandbox_5UpnbMvaihRuRwz5QXwBFw,tok_sandbox_9ToiJHedw1nE1Jfx1qYYgz
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/RevealedData'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /aliases/{alias}:
+    parameters:
+      - $ref: '#/components/parameters/alias'
+    get:
+      operationId: revealAlias
+      tags:
+        - aliases
+      summary: Reveal single alias
+      description: >-
+        Retrieves a stored value along with its aliases. This endpoint may
+        expose sensitive data and is disabled by default; contact VGS to enable
+        it.
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    minItems: 1
+                    maxItems: 1
+                    items:
+                      $ref: '#/components/schemas/RevealedData'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    put:
+      operationId: updateAlias
+      tags:
+        - aliases
+      summary: Update data classifiers
+      description: Apply new classifiers to the value the specified alias is associated with.
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAliasRequest'
+      responses:
+        '204':
+          description: No Content
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    delete:
+      operationId: deleteAlias
+      tags:
+        - aliases
+      summary: Delete alias
+      description: Removes a single alias.
+      security:
+        - basicAuth: []
+      responses:
+        '204':
+          description: No Content
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /organizations:
+    get:
+      operationId: listOrganizations
+      tags:
+        - organizations
+      summary: List organizations
+      description: >-
+        Reads basic organization details accessible to the authenticated
+        service account (requires the organizations:read scope). Served from the
+        VGS Accounts control plane.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organization'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /organizations/{organizationId}:
+    parameters:
+      - $ref: '#/components/parameters/organizationId'
+    get:
+      operationId: getOrganization
+      tags:
+        - organizations
+      summary: Get organization
+      description: Retrieves a single organization by identifier (organizations:read scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /vaults:
+    get:
+      operationId: listVaults
+      tags:
+        - vaults
+      summary: List vaults
+      description: >-
+        Lists the vaults in the organization, including name and identifier
+        (requires the vaults:read scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    post:
+      operationId: createVault
+      tags:
+        - vaults
+      summary: Create vault
+      description: Creates a new vault in the organization (requires the vaults:write scope).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VaultCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /vaults/{vaultId}:
+    parameters:
+      - $ref: '#/components/parameters/vaultId'
+    get:
+      operationId: getVault
+      tags:
+        - vaults
+      summary: Get vault
+      description: Retrieves a single vault by identifier (vaults:read scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vault'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /vaults/{vaultId}/routes:
+    parameters:
+      - $ref: '#/components/parameters/vaultId'
+    get:
+      operationId: listRoutes
+      tags:
+        - routes
+      summary: List routes
+      description: >-
+        Lists inbound and outbound proxy routes configured on the vault
+        (requires the routes:read scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Route'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    post:
+      operationId: createRoute
+      tags:
+        - routes
+      summary: Create route
+      description: >-
+        Creates an inbound (reverse) or outbound (forward) proxy route on the
+        vault that redacts or reveals sensitive data in transit (requires the
+        routes:write scope).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+  /vaults/{vaultId}/routes/{routeId}:
+    parameters:
+      - $ref: '#/components/parameters/vaultId'
+      - $ref: '#/components/parameters/routeId'
+    get:
+      operationId: getRoute
+      tags:
+        - routes
+      summary: Get route
+      description: Retrieves a single route by identifier (routes:read scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    put:
+      operationId: updateRoute
+      tags:
+        - routes
+      summary: Update route
+      description: Replaces a route configuration on the vault (routes:write scope).
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+    delete:
+      operationId: deleteRoute
+      tags:
+        - routes
+      summary: Delete route
+      description: Removes a route from the vault (routes:write scope).
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No Content
+        default:
+          $ref: '#/components/responses/ApiErrorsResponse'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        HTTP Basic authentication used by the VGS Vault HTTP API. Username and
+        password are the vault access credentials generated in the VGS
+        dashboard.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Bearer access token used by the VGS Accounts API. Obtain the token from
+        the OAuth2 client-credentials endpoint at
+        https://auth.verygoodsecurity.com/auth/realms/vgs/protocol/openid-connect/token
+        using a service-account client id and secret, then pass it as
+        Authorization: Bearer <token>.
+  parameters:
+    alias:
+      name: alias
+      in: path
+      required: true
+      description: Alias to operate on.
+      schema:
+        type: string
+      example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+    organizationId:
+      name: organizationId
+      in: path
+      required: true
+      description: Organization identifier.
+      schema:
+        type: string
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
+    routeId:
+      name: routeId
+      in: path
+      required: true
+      description: Route identifier.
+      schema:
+        type: string
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
+    AliasFormat:
+      type: string
+      description: Format of the generated alias string.
+      enum:
+        - FPE_ACC_NUM_T_FOUR
+        - FPE_ALPHANUMERIC_ACC_NUM_T_FOUR
+        - FPE_SIX_T_FOUR
+        - FPE_SSN_T_FOUR
+        - FPE_T_FOUR
+        - NUM_LENGTH_PRESERVING
+        - PFPT
+        - RAW_UUID
+        - UUID
+      example: UUID
+    Alias:
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Opaque string used to substitute the raw value.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+    RevealedData:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Decrypted value stored in the vault.
+          example: '122105155'
+        classifiers:
+          type: array
+          description: List of tags the value is classified with.
+          items:
+            type: string
+          example:
+            - bank-account
+        aliases:
+          type: array
+          description: List of aliases associated with the value.
+          items:
+            $ref: '#/components/schemas/Alias'
+        created_at:
+          type: string
+          format: date-time
+          description: Creation time, in UTC.
+          example: '2019-05-15T12:30:45Z'
+        storage:
+          type: string
+          enum:
+            - PERSISTENT
+            - VOLATILE
+          default: PERSISTENT
+          description: >-
+            Storage medium. VOLATILE persists data in an in-memory store for one
+            hour, required for PCI-compliant storage of card security codes.
+    CreateAliasesRequestNew:
+      type: object
+      required:
+        - value
+        - format
+      properties:
+        value:
+          type: string
+          description: Raw value to encrypt and store in the vault.
+          example: '122105155'
+        classifiers:
+          type: array
+          description: List of tags to classify the value with.
+          items:
+            type: string
+          example:
+            - bank-account
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+        storage:
+          type: string
+          enum:
+            - PERSISTENT
+            - VOLATILE
+          default: PERSISTENT
+          description: Storage medium to use.
+    CreateAliasesRequestReference:
+      type: object
+      required:
+        - alias
+        - format
+      properties:
+        alias:
+          type: string
+          description: Existing alias to use as a reference.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+    CreateAliasesRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/CreateAliasesRequestNew'
+              - $ref: '#/components/schemas/CreateAliasesRequestReference'
+    UpdateAliasRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - classifiers
+          properties:
+            classifiers:
+              type: array
+              description: List of tags to classify the value with.
+              items:
+                type: string
+              example:
+                - credit-cards
+                - PII
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Organization identifier.
+        name:
+          type: string
+          description: Organization name.
+        type:
+          type: string
+          description: Resource type.
+          example: organizations
+    Vault:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Vault identifier (tenant id).
+          example: tntabcdefg
+        name:
+          type: string
+          description: Human-readable vault name.
+        environment:
+          type: string
+          enum:
+            - SANDBOX
+            - LIVE
+          description: Vault environment.
+        organization_id:
+          type: string
+          description: Owning organization identifier.
+    VaultCreateRequest:
+      type: object
+      required:
+        - name
+        - environment
+      properties:
+        name:
+          type: string
+          description: Human-readable vault name.
+        environment:
+          type: string
+          enum:
+            - SANDBOX
+            - LIVE
+          description: Vault environment to create.
+        organization_id:
+          type: string
+          description: Owning organization identifier.
+    Route:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Route identifier.
+        type:
+          type: string
+          enum:
+            - INBOUND
+            - OUTBOUND
+          description: >-
+            INBOUND (reverse) proxy routes sit between clients and your server;
+            OUTBOUND (forward) proxy routes sit between your server and third
+            parties.
+        protocol:
+          type: string
+          enum:
+            - HTTP
+          description: Proxy protocol.
+        host_endpoint:
+          type: string
+          description: Upstream host pattern the route applies to.
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          description: Arbitrary tags applied to the route.
