@@ -1,0 +1,845 @@
+{
+  "item": [
+    {
+      "id": "0a6e1ca3-e91d-4308-82db-424230cf5726",
+      "name": "aliases",
+      "description": {
+        "content": "Tokenization operations on the VGS Vault HTTP API.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cd81376c-dd9f-4489-a80a-19054bfda7bb",
+          "name": "Create aliases",
+          "request": {
+            "name": "Create aliases",
+            "description": {
+              "content": "Stores multiple values at once and returns their aliases. May also be used to associate additional (secondary) aliases with the same underlying data as a reference alias. You cannot reference the same alias more than once in a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aliases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"value\": \"<string>\",\n      \"format\": \"<string>\",\n      \"classifiers\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d0b486f1-cb1e-4a98-942c-f06884864706",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"format\": \"UUID\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"aliases\": [\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        },\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        }\n      ],\n      \"created_at\": \"2019-05-15T12:30:45Z\",\n      \"storage\": \"PERSISTENT\"\n    },\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"aliases\": [\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        },\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        }\n      ],\n      \"created_at\": \"2019-05-15T12:30:45Z\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eeaf0e54-7989-43fa-890e-af1082dd5425",
+              "name": "Something went wrong",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"format\": \"UUID\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1180,\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"href\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07b149a4-057d-4031-98eb-0c2e1d078192",
+          "name": "Reveal multiple aliases",
+          "request": {
+            "name": "Reveal multiple aliases",
+            "description": {
+              "content": "Given a list of aliases, retrieves all associated values stored in the vault. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aliases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of aliases to reveal."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e4ac0ddf-d34e-4bbe-97f6-c818dc06913b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "tok_sandbox_5UpnbMvaihRuRwz5QXwBFw,tok_sandbox_9ToiJHedw1nE1Jfx1qYYgz"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"aliases\": [\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        },\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        }\n      ],\n      \"created_at\": \"2019-05-15T12:30:45Z\",\n      \"storage\": \"PERSISTENT\"\n    },\n    \"key_1\": {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"aliases\": [\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        },\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        }\n      ],\n      \"created_at\": \"2019-05-15T12:30:45Z\",\n      \"storage\": \"PERSISTENT\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7233408f-292e-4b79-a097-c5740e5aefa7",
+              "name": "Something went wrong",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "q",
+                      "value": "tok_sandbox_5UpnbMvaihRuRwz5QXwBFw,tok_sandbox_9ToiJHedw1nE1Jfx1qYYgz"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1180,\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"href\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a20a51a8-4f89-41ce-9050-5baeb69b4177",
+          "name": "Reveal single alias",
+          "request": {
+            "name": "Reveal single alias",
+            "description": {
+              "content": "Retrieves a stored value along with its aliases. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aliases",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) Alias to operate on."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "701e3a20-0501-4329-ae79-ffe130a8d2a8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"value\": \"122105155\",\n      \"classifiers\": [\n        \"bank-account\"\n      ],\n      \"aliases\": [\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        },\n        {\n          \"alias\": \"tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e\",\n          \"format\": \"UUID\"\n        }\n      ],\n      \"created_at\": \"2019-05-15T12:30:45Z\",\n      \"storage\": \"PERSISTENT\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aad643b9-350b-4148-9286-e0ddeda3ba91",
+              "name": "Something went wrong",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1180,\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"href\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56359598-0370-47f6-a9f7-dfbd6e8be9e8",
+          "name": "Update data classifiers",
+          "request": {
+            "name": "Update data classifiers",
+            "description": {
+              "content": "Apply new classifiers to the value the specified alias is associated with.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aliases",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) Alias to operate on."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"classifiers\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "62a3883c-f796-4609-8997-a9263d5ea3b3",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"classifiers\": [\n      \"credit-cards\",\n      \"PII\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1de613fa-9414-4ab0-9a58-c381975ec4e8",
+              "name": "Something went wrong",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"classifiers\": [\n      \"credit-cards\",\n      \"PII\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1180,\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"href\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65d69446-772d-4db1-9190-7b71f573ae91",
+          "name": "Delete alias",
+          "request": {
+            "name": "Delete alias",
+            "description": {
+              "content": "Removes a single alias.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aliases",
+                ":alias"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "alias",
+                  "description": "(Required) Alias to operate on."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "372454b6-b7b6-4a8f-8546-153de241b6a6",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "445f6b9e-5cd2-45a2-8290-e68d030578fd",
+              "name": "Something went wrong",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aliases",
+                    ":alias"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "alias",
+                      "description": "(Required) Alias to operate on."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": 1180,\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"href\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.sandbox.verygoodvault.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bffc9267-5758-44bb-9358-8e37cefb22aa",
+    "name": "Very Good Security (VGS) aliases API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.\n\nContact Support:\n Name: VGS Support\n Email: support@verygoodsecurity.com",
+      "type": "text/plain"
+    }
+  }
+}

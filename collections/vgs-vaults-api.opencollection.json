@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Very Good Security (VGS) aliases vaults API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "vaults",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List vaults",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/vaults",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists the vaults in the organization, including name and identifier (requires the vaults:read scope)."
+        },
+        {
+          "info": {
+            "name": "Create vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sandbox.verygoodvault.com/vaults",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new vault in the organization (requires the vaults:write scope)."
+        },
+        {
+          "info": {
+            "name": "Get vault",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a single vault by identifier (vaults:read scope)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

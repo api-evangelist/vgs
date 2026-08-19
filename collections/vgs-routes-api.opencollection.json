@@ -1,0 +1,159 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Very Good Security (VGS) aliases routes API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId/routes",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists inbound and outbound proxy routes configured on the vault (requires the routes:read scope)."
+        },
+        {
+          "info": {
+            "name": "Create route",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId/routes",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates an inbound (reverse) or outbound (forward) proxy route on the vault that redacts or reveals sensitive data in transit (requires the routes:write scope)."
+        },
+        {
+          "info": {
+            "name": "Get route",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId/routes/:routeId",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              },
+              {
+                "name": "routeId",
+                "value": "",
+                "type": "path",
+                "description": "Route identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a single route by identifier (routes:read scope)."
+        },
+        {
+          "info": {
+            "name": "Update route",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId/routes/:routeId",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              },
+              {
+                "name": "routeId",
+                "value": "",
+                "type": "path",
+                "description": "Route identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces a route configuration on the vault (routes:write scope)."
+        },
+        {
+          "info": {
+            "name": "Delete route",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sandbox.verygoodvault.com/vaults/:vaultId/routes/:routeId",
+            "params": [
+              {
+                "name": "vaultId",
+                "value": "tntabcdefg",
+                "type": "path",
+                "description": "Vault identifier."
+              },
+              {
+                "name": "routeId",
+                "value": "",
+                "type": "path",
+                "description": "Route identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes a route from the vault (routes:write scope)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

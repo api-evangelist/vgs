@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Very Good Security (VGS) aliases API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "aliases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Reveal multiple aliases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/aliases",
+            "params": [
+              {
+                "name": "q",
+                "value": "tok_sandbox_5UpnbMvaihRuRwz5QXwBFw,tok_sandbox_9ToiJHedw1nE1Jfx1qYYgz",
+                "type": "query",
+                "description": "Comma-separated list of aliases to reveal."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Given a list of aliases, retrieves all associated values stored in the vault. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it."
+        },
+        {
+          "info": {
+            "name": "Create aliases",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sandbox.verygoodvault.com/aliases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Stores multiple values at once and returns their aliases. May also be used to associate additional (secondary) aliases with the same underlying data as a reference alias. You cannot reference the same alias more than once in a single request."
+        },
+        {
+          "info": {
+            "name": "Reveal single alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/:alias",
+            "params": [
+              {
+                "name": "alias",
+                "value": "tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e",
+                "type": "path",
+                "description": "Alias to operate on."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Retrieves a stored value along with its aliases. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it."
+        },
+        {
+          "info": {
+            "name": "Update data classifiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/:alias",
+            "params": [
+              {
+                "name": "alias",
+                "value": "tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e",
+                "type": "path",
+                "description": "Alias to operate on."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Apply new classifiers to the value the specified alias is associated with."
+        },
+        {
+          "info": {
+            "name": "Delete alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sandbox.verygoodvault.com/aliases/:alias",
+            "params": [
+              {
+                "name": "alias",
+                "value": "tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e",
+                "type": "path",
+                "description": "Alias to operate on."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Removes a single alias."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
