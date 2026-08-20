@@ -39,6 +39,8 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
+  - Aliases
+  tags_raw:
   - aliases
   properties:
   - type: OpenAPI
@@ -69,6 +71,8 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
+  - Organization
+  tags_raw:
   - organizations
   properties:
   - type: OpenAPI
@@ -99,6 +103,8 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
+  - Routes
+  tags_raw:
   - routes
   properties:
   - type: OpenAPI
@@ -129,6 +135,8 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
+  - Vault
+  tags_raw:
   - vaults
   properties:
   - type: OpenAPI
