@@ -9,6 +9,18 @@ description: Very Good Security (VGS) is a data security and tokenization platfo
   (aliases / redact / reveal), an Accounts management API for vaults, routes, and
   organizations, and a forward/reverse Proxy that aliases and de-aliases data in
   transit.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
