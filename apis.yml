@@ -51,7 +51,7 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
-  - aliases
+  - Aliases
   tags_raw:
   - aliases
   properties:
@@ -147,7 +147,7 @@ apis:
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
   tags:
-  - vaults
+  - Vault
   tags_raw:
   - vaults
   properties:
