@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Very Good Security (VGS) aliases routes API
-  description: Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.
+  title: Very Good Security (VGS) Routes API
+  description: Specification of the public Very Good Security (VGS) APIs.
   termsOfService: https://www.verygoodsecurity.com/terms
   contact:
     name: VGS Support
@@ -17,7 +17,7 @@ servers:
 - url: https://accounts.apps.verygoodsecurity.com
   description: Accounts (control plane) API
 tags:
-- name: routes
+- name: Routes
   description: Inbound / outbound proxy route resources on the VGS Accounts API.
 paths:
   /vaults/{vaultId}/routes:
@@ -26,7 +26,7 @@ paths:
     get:
       operationId: listRoutes
       tags:
-      - routes
+      - Routes
       summary: List routes
       description: Lists inbound and outbound proxy routes configured on the vault (requires the routes:read scope).
       security:
@@ -48,7 +48,7 @@ paths:
     post:
       operationId: createRoute
       tags:
-      - routes
+      - Routes
       summary: Create route
       description: Creates an inbound (reverse) or outbound (forward) proxy route on the vault that redacts or reveals sensitive data in transit (requires the routes:write scope).
       security:
@@ -75,7 +75,7 @@ paths:
     get:
       operationId: getRoute
       tags:
-      - routes
+      - Routes
       summary: Get route
       description: Retrieves a single route by identifier (routes:read scope).
       security:
@@ -92,7 +92,7 @@ paths:
     put:
       operationId: updateRoute
       tags:
-      - routes
+      - Routes
       summary: Update route
       description: Replaces a route configuration on the vault (routes:write scope).
       security:
@@ -115,7 +115,7 @@ paths:
     delete:
       operationId: deleteRoute
       tags:
-      - routes
+      - Routes
       summary: Delete route
       description: Removes a route from the vault (routes:write scope).
       security:
@@ -142,7 +142,35 @@ components:
       schema:
         type: string
       example: tntabcdefg
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
   schemas:
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
     Route:
       type: object
       properties:
@@ -168,34 +196,6 @@ components:
           additionalProperties:
             type: string
           description: Arbitrary tags applied to the route.
-    ApiError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code.
-        title:
-          type: string
-          description: High-level reason of why the request failed.
-        detail:
-          type: string
-          description: Explanation of what exactly went wrong.
-        href:
-          type: string
-          description: Request URL.
-  responses:
-    ApiErrorsResponse:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                minItems: 1
-                items:
-                  $ref: '#/components/schemas/ApiError'
   securitySchemes:
     basicAuth:
       type: http

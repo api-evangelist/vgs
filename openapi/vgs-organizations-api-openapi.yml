@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Very Good Security (VGS) aliases organizations API
-  description: Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.
+  title: Very Good Security (VGS) Organizations API
+  description: Specification of the public Very Good Security (VGS) APIs.
   termsOfService: https://www.verygoodsecurity.com/terms
   contact:
     name: VGS Support
@@ -17,14 +17,14 @@ servers:
 - url: https://accounts.apps.verygoodsecurity.com
   description: Accounts (control plane) API
 tags:
-- name: organizations
+- name: Organizations
   description: Organization resources on the VGS Accounts API.
 paths:
   /organizations:
     get:
       operationId: listOrganizations
       tags:
-      - organizations
+      - Organizations
       summary: List organizations
       description: Reads basic organization details accessible to the authenticated service account (requires the organizations:read scope). Served from the VGS Accounts control plane.
       security:
@@ -49,7 +49,7 @@ paths:
     get:
       operationId: getOrganization
       tags:
-      - organizations
+      - Organizations
       summary: Get organization
       description: Retrieves a single organization by identifier (organizations:read scope).
       security:

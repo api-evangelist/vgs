@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Very Good Security (VGS) aliases API
-  description: Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.
+  title: Very Good Security (VGS) Aliases API
+  description: Specification of the public Very Good Security (VGS) APIs.
   termsOfService: https://www.verygoodsecurity.com/terms
   contact:
     name: VGS Support
@@ -17,14 +17,14 @@ servers:
 - url: https://accounts.apps.verygoodsecurity.com
   description: Accounts (control plane) API
 tags:
-- name: aliases
+- name: Aliases
   description: Tokenization operations on the VGS Vault HTTP API.
 paths:
   /aliases:
     post:
       operationId: createAliases
       tags:
-      - aliases
+      - Aliases
       summary: Create aliases
       description: Stores multiple values at once and returns their aliases. May also be used to associate additional (secondary) aliases with the same underlying data as a reference alias. You cannot reference the same alias more than once in a single request.
       security:
@@ -70,7 +70,7 @@ paths:
     get:
       operationId: revealMultipleAliases
       tags:
-      - aliases
+      - Aliases
       summary: Reveal multiple aliases
       description: Given a list of aliases, retrieves all associated values stored in the vault. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it.
       security:
@@ -103,7 +103,7 @@ paths:
     get:
       operationId: revealAlias
       tags:
-      - aliases
+      - Aliases
       summary: Reveal single alias
       description: Retrieves a stored value along with its aliases. This endpoint may expose sensitive data and is disabled by default; contact VGS to enable it.
       security:
@@ -127,7 +127,7 @@ paths:
     put:
       operationId: updateAlias
       tags:
-      - aliases
+      - Aliases
       summary: Update data classifiers
       description: Apply new classifiers to the value the specified alias is associated with.
       security:
@@ -146,7 +146,7 @@ paths:
     delete:
       operationId: deleteAlias
       tags:
-      - aliases
+      - Aliases
       summary: Delete alias
       description: Removes a single alias.
       security:
@@ -158,76 +158,6 @@ paths:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
   schemas:
-    CreateAliasesRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: array
-          minItems: 1
-          maxItems: 20
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/CreateAliasesRequestNew'
-            - $ref: '#/components/schemas/CreateAliasesRequestReference'
-    RevealedData:
-      type: object
-      properties:
-        value:
-          type: string
-          description: Decrypted value stored in the vault.
-          example: '122105155'
-        classifiers:
-          type: array
-          description: List of tags the value is classified with.
-          items:
-            type: string
-          example:
-          - bank-account
-        aliases:
-          type: array
-          description: List of aliases associated with the value.
-          items:
-            $ref: '#/components/schemas/Alias'
-        created_at:
-          type: string
-          format: date-time
-          description: Creation time, in UTC.
-          example: '2019-05-15T12:30:45Z'
-        storage:
-          type: string
-          enum:
-          - PERSISTENT
-          - VOLATILE
-          default: PERSISTENT
-          description: Storage medium. VOLATILE persists data in an in-memory store for one hour, required for PCI-compliant storage of card security codes.
-    CreateAliasesRequestReference:
-      type: object
-      required:
-      - alias
-      - format
-      properties:
-        alias:
-          type: string
-          description: Existing alias to use as a reference.
-          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
-        format:
-          $ref: '#/components/schemas/AliasFormat'
-    AliasFormat:
-      type: string
-      description: Format of the generated alias string.
-      enum:
-      - FPE_ACC_NUM_T_FOUR
-      - FPE_ALPHANUMERIC_ACC_NUM_T_FOUR
-      - FPE_SIX_T_FOUR
-      - FPE_SSN_T_FOUR
-      - FPE_T_FOUR
-      - NUM_LENGTH_PRESERVING
-      - PFPT
-      - RAW_UUID
-      - UUID
-      example: UUID
     CreateAliasesRequestNew:
       type: object
       required:
@@ -254,15 +184,19 @@ components:
           - VOLATILE
           default: PERSISTENT
           description: Storage medium to use.
-    Alias:
+    CreateAliasesRequest:
       type: object
+      required:
+      - data
       properties:
-        alias:
-          type: string
-          description: Opaque string used to substitute the raw value.
-          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
-        format:
-          $ref: '#/components/schemas/AliasFormat'
+        data:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CreateAliasesRequestNew'
+            - $ref: '#/components/schemas/CreateAliasesRequestReference'
     UpdateAliasRequest:
       type: object
       required:
@@ -296,6 +230,72 @@ components:
         href:
           type: string
           description: Request URL.
+    CreateAliasesRequestReference:
+      type: object
+      required:
+      - alias
+      - format
+      properties:
+        alias:
+          type: string
+          description: Existing alias to use as a reference.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+    RevealedData:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Decrypted value stored in the vault.
+          example: '122105155'
+        classifiers:
+          type: array
+          description: List of tags the value is classified with.
+          items:
+            type: string
+          example:
+          - bank-account
+        aliases:
+          type: array
+          description: List of aliases associated with the value.
+          items:
+            $ref: '#/components/schemas/Alias'
+        created_at:
+          type: string
+          format: date-time
+          description: Creation time, in UTC.
+          example: '2019-05-15T12:30:45Z'
+        storage:
+          type: string
+          enum:
+          - PERSISTENT
+          - VOLATILE
+          default: PERSISTENT
+          description: Storage medium. VOLATILE persists data in an in-memory store for one hour, required for PCI-compliant storage of card security codes.
+    Alias:
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Opaque string used to substitute the raw value.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+    AliasFormat:
+      type: string
+      description: Format of the generated alias string.
+      enum:
+      - FPE_ACC_NUM_T_FOUR
+      - FPE_ALPHANUMERIC_ACC_NUM_T_FOUR
+      - FPE_SIX_T_FOUR
+      - FPE_SSN_T_FOUR
+      - FPE_T_FOUR
+      - NUM_LENGTH_PRESERVING
+      - PFPT
+      - RAW_UUID
+      - UUID
+      example: UUID
   parameters:
     alias:
       name: alias

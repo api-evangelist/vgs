@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Very Good Security (VGS) aliases vaults API
-  description: Specification of the public Very Good Security (VGS) APIs. Covers the VGS Vault HTTP API for tokenization (create / reveal / update / delete aliases) served from the verygoodvault.com hosts with HTTP Basic authentication, and the VGS Accounts (control plane) API for managing organizations, vaults, and routes served from accounts.apps.verygoodsecurity.com with a Bearer access token obtained via the OAuth2 client-credentials flow. Endpoint shapes for the Vault API mirror the published VGS Vault API reference; Accounts resources are modeled from VGS platform / IAM documentation.
+  title: Very Good Security (VGS) Vaults API
+  description: Specification of the public Very Good Security (VGS) APIs.
   termsOfService: https://www.verygoodsecurity.com/terms
   contact:
     name: VGS Support
@@ -17,14 +17,14 @@ servers:
 - url: https://accounts.apps.verygoodsecurity.com
   description: Accounts (control plane) API
 tags:
-- name: vaults
+- name: Vaults
   description: Vault resources on the VGS Accounts API.
 paths:
   /vaults:
     get:
       operationId: listVaults
       tags:
-      - vaults
+      - Vaults
       summary: List vaults
       description: Lists the vaults in the organization, including name and identifier (requires the vaults:read scope).
       security:
@@ -46,7 +46,7 @@ paths:
     post:
       operationId: createVault
       tags:
-      - vaults
+      - Vaults
       summary: Create vault
       description: Creates a new vault in the organization (requires the vaults:write scope).
       security:
@@ -72,7 +72,7 @@ paths:
     get:
       operationId: getVault
       tags:
-      - vaults
+      - Vaults
       summary: Get vault
       description: Retrieves a single vault by identifier (vaults:read scope).
       security:
@@ -87,15 +87,6 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  parameters:
-    vaultId:
-      name: vaultId
-      in: path
-      required: true
-      description: Vault identifier.
-      schema:
-        type: string
-      example: tntabcdefg
   schemas:
     VaultCreateRequest:
       type: object
@@ -115,6 +106,21 @@ components:
         organization_id:
           type: string
           description: Owning organization identifier.
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
     Vault:
       type: object
       properties:
@@ -134,21 +140,6 @@ components:
         organization_id:
           type: string
           description: Owning organization identifier.
-    ApiError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code.
-        title:
-          type: string
-          description: High-level reason of why the request failed.
-        detail:
-          type: string
-          description: Explanation of what exactly went wrong.
-        href:
-          type: string
-          description: Request URL.
   responses:
     ApiErrorsResponse:
       description: Something went wrong
@@ -162,6 +153,15 @@ components:
                 minItems: 1
                 items:
                   $ref: '#/components/schemas/ApiError'
+  parameters:
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
   securitySchemes:
     basicAuth:
       type: http
