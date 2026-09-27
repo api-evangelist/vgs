@@ -86,19 +86,6 @@ components:
       schema:
         type: string
   schemas:
-    Organization:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Organization identifier.
-        name:
-          type: string
-          description: Organization name.
-        type:
-          type: string
-          description: Resource type.
-          example: organizations
     ApiError:
       type: object
       properties:
@@ -114,6 +101,19 @@ components:
         href:
           type: string
           description: Request URL.
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Organization identifier.
+        name:
+          type: string
+          description: Organization name.
+        type:
+          type: string
+          description: Resource type.
+          example: organizations
   securitySchemes:
     basicAuth:
       type: http

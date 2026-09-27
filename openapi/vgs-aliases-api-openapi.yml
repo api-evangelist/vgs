@@ -157,6 +157,19 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
   schemas:
     CreateAliasesRequestNew:
       type: object
@@ -184,6 +197,20 @@ components:
           - VOLATILE
           default: PERSISTENT
           description: Storage medium to use.
+    AliasFormat:
+      type: string
+      description: Format of the generated alias string.
+      enum:
+      - FPE_ACC_NUM_T_FOUR
+      - FPE_ALPHANUMERIC_ACC_NUM_T_FOUR
+      - FPE_SIX_T_FOUR
+      - FPE_SSN_T_FOUR
+      - FPE_T_FOUR
+      - NUM_LENGTH_PRESERVING
+      - PFPT
+      - RAW_UUID
+      - UUID
+      example: UUID
     CreateAliasesRequest:
       type: object
       required:
@@ -197,24 +224,6 @@ components:
             oneOf:
             - $ref: '#/components/schemas/CreateAliasesRequestNew'
             - $ref: '#/components/schemas/CreateAliasesRequestReference'
-    UpdateAliasRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          required:
-          - classifiers
-          properties:
-            classifiers:
-              type: array
-              description: List of tags to classify the value with.
-              items:
-                type: string
-              example:
-              - credit-cards
-              - PII
     ApiError:
       type: object
       properties:
@@ -230,18 +239,6 @@ components:
         href:
           type: string
           description: Request URL.
-    CreateAliasesRequestReference:
-      type: object
-      required:
-      - alias
-      - format
-      properties:
-        alias:
-          type: string
-          description: Existing alias to use as a reference.
-          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
-        format:
-          $ref: '#/components/schemas/AliasFormat'
     RevealedData:
       type: object
       properties:
@@ -273,6 +270,18 @@ components:
           - VOLATILE
           default: PERSISTENT
           description: Storage medium. VOLATILE persists data in an in-memory store for one hour, required for PCI-compliant storage of card security codes.
+    CreateAliasesRequestReference:
+      type: object
+      required:
+      - alias
+      - format
+      properties:
+        alias:
+          type: string
+          description: Existing alias to use as a reference.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
     Alias:
       type: object
       properties:
@@ -282,20 +291,24 @@ components:
           example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
         format:
           $ref: '#/components/schemas/AliasFormat'
-    AliasFormat:
-      type: string
-      description: Format of the generated alias string.
-      enum:
-      - FPE_ACC_NUM_T_FOUR
-      - FPE_ALPHANUMERIC_ACC_NUM_T_FOUR
-      - FPE_SIX_T_FOUR
-      - FPE_SSN_T_FOUR
-      - FPE_T_FOUR
-      - NUM_LENGTH_PRESERVING
-      - PFPT
-      - RAW_UUID
-      - UUID
-      example: UUID
+    UpdateAliasRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          required:
+          - classifiers
+          properties:
+            classifiers:
+              type: array
+              description: List of tags to classify the value with.
+              items:
+                type: string
+              example:
+              - credit-cards
+              - PII
   parameters:
     alias:
       name: alias
@@ -305,19 +318,6 @@ components:
       schema:
         type: string
       example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
-  responses:
-    ApiErrorsResponse:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                minItems: 1
-                items:
-                  $ref: '#/components/schemas/ApiError'
   securitySchemes:
     basicAuth:
       type: http

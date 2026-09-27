@@ -126,22 +126,6 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  parameters:
-    routeId:
-      name: routeId
-      in: path
-      required: true
-      description: Route identifier.
-      schema:
-        type: string
-    vaultId:
-      name: vaultId
-      in: path
-      required: true
-      description: Vault identifier.
-      schema:
-        type: string
-      example: tntabcdefg
   responses:
     ApiErrorsResponse:
       description: Something went wrong
@@ -196,6 +180,22 @@ components:
           additionalProperties:
             type: string
           description: Arbitrary tags applied to the route.
+  parameters:
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
+    routeId:
+      name: routeId
+      in: path
+      required: true
+      description: Route identifier.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

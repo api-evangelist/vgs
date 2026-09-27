@@ -87,40 +87,20 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
   schemas:
-    VaultCreateRequest:
-      type: object
-      required:
-      - name
-      - environment
-      properties:
-        name:
-          type: string
-          description: Human-readable vault name.
-        environment:
-          type: string
-          enum:
-          - SANDBOX
-          - LIVE
-          description: Vault environment to create.
-        organization_id:
-          type: string
-          description: Owning organization identifier.
-    ApiError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code.
-        title:
-          type: string
-          description: High-level reason of why the request failed.
-        detail:
-          type: string
-          description: Explanation of what exactly went wrong.
-        href:
-          type: string
-          description: Request URL.
     Vault:
       type: object
       properties:
@@ -140,19 +120,39 @@ components:
         organization_id:
           type: string
           description: Owning organization identifier.
-  responses:
-    ApiErrorsResponse:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                minItems: 1
-                items:
-                  $ref: '#/components/schemas/ApiError'
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
+    VaultCreateRequest:
+      type: object
+      required:
+      - name
+      - environment
+      properties:
+        name:
+          type: string
+          description: Human-readable vault name.
+        environment:
+          type: string
+          enum:
+          - SANDBOX
+          - LIVE
+          description: Vault environment to create.
+        organization_id:
+          type: string
+          description: Owning organization identifier.
   parameters:
     vaultId:
       name: vaultId

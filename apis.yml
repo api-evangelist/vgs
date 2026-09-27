@@ -39,6 +39,12 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vgs.png
 tags:
 - Security
 - Tokenization
+- Privacy
+- PCI Compliance
+- Vault
+tags_raw:
+- Security
+- Tokenization
 - Data Privacy
 - PCI Compliance
 - Vault
@@ -47,7 +53,7 @@ modified: '2026-06-20'
 specificationVersion: '0.23'
 apis:
 - aid: vgs:vgs-aliases-api
-  name: Very Good Security aliases API
+  name: Very Good Security Aliases API
   description: Tokenization operations on the VGS Vault HTTP API.
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
@@ -79,7 +85,7 @@ apis:
   - type: Documentation
     url: https://docs.verygoodsecurity.com/vault/platform/iam
 - aid: vgs:vgs-organizations-api
-  name: Very Good Security organizations API
+  name: Very Good Security Organizations API
   description: Organization resources on the VGS Accounts API.
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
@@ -111,7 +117,7 @@ apis:
   - type: Documentation
     url: https://docs.verygoodsecurity.com/vault/platform/iam
 - aid: vgs:vgs-routes-api
-  name: Very Good Security routes API
+  name: Very Good Security Routes API
   description: Inbound / outbound proxy route resources on the VGS Accounts API.
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
@@ -143,7 +149,7 @@ apis:
   - type: Documentation
     url: https://docs.verygoodsecurity.com/vault/platform/iam
 - aid: vgs:vgs-vaults-api
-  name: Very Good Security vaults API
+  name: Very Good Security Vaults API
   description: Vault resources on the VGS Accounts API.
   humanURL: https://www.verygoodsecurity.com/docs/vault/api/
   baseURL: https://api.sandbox.verygoodvault.com
