@@ -126,19 +126,22 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  responses:
-    ApiErrorsResponse:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                minItems: 1
-                items:
-                  $ref: '#/components/schemas/ApiError'
+  parameters:
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
+    routeId:
+      name: routeId
+      in: path
+      required: true
+      description: Route identifier.
+      schema:
+        type: string
   schemas:
     ApiError:
       type: object
@@ -180,22 +183,19 @@ components:
           additionalProperties:
             type: string
           description: Arbitrary tags applied to the route.
-  parameters:
-    vaultId:
-      name: vaultId
-      in: path
-      required: true
-      description: Vault identifier.
-      schema:
-        type: string
-      example: tntabcdefg
-    routeId:
-      name: routeId
-      in: path
-      required: true
-      description: Route identifier.
-      schema:
-        type: string
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
   securitySchemes:
     basicAuth:
       type: http
