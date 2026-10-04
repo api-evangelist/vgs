@@ -64,33 +64,15 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  responses:
-    ApiErrorsResponse:
-      description: Something went wrong
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                type: array
-                minItems: 1
-                items:
-                  $ref: '#/components/schemas/ApiError'
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      required: true
+      description: Organization identifier.
+      schema:
+        type: string
   schemas:
-    Organization:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Organization identifier.
-        name:
-          type: string
-          description: Organization name.
-        type:
-          type: string
-          description: Resource type.
-          example: organizations
     ApiError:
       type: object
       properties:
@@ -106,14 +88,32 @@ components:
         href:
           type: string
           description: Request URL.
-  parameters:
-    organizationId:
-      name: organizationId
-      in: path
-      required: true
-      description: Organization identifier.
-      schema:
-        type: string
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Organization identifier.
+        name:
+          type: string
+          description: Organization name.
+        type:
+          type: string
+          description: Resource type.
+          example: organizations
+  responses:
+    ApiErrorsResponse:
+      description: Something went wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                minItems: 1
+                items:
+                  $ref: '#/components/schemas/ApiError'
   securitySchemes:
     basicAuth:
       type: http

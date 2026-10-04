@@ -157,16 +157,88 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  parameters:
-    alias:
-      name: alias
-      in: path
-      required: true
-      description: Alias to operate on.
-      schema:
-        type: string
-      example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
   schemas:
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
+    UpdateAliasRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          required:
+          - classifiers
+          properties:
+            classifiers:
+              type: array
+              description: List of tags to classify the value with.
+              items:
+                type: string
+              example:
+              - credit-cards
+              - PII
+    Alias:
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Opaque string used to substitute the raw value.
+          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+    CreateAliasesRequest:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          minItems: 1
+          maxItems: 20
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CreateAliasesRequestNew'
+            - $ref: '#/components/schemas/CreateAliasesRequestReference'
+    CreateAliasesRequestNew:
+      type: object
+      required:
+      - value
+      - format
+      properties:
+        value:
+          type: string
+          description: Raw value to encrypt and store in the vault.
+          example: '122105155'
+        classifiers:
+          type: array
+          description: List of tags to classify the value with.
+          items:
+            type: string
+          example:
+          - bank-account
+        format:
+          $ref: '#/components/schemas/AliasFormat'
+        storage:
+          type: string
+          enum:
+          - PERSISTENT
+          - VOLATILE
+          default: PERSISTENT
+          description: Storage medium to use.
     RevealedData:
       type: object
       properties:
@@ -198,19 +270,6 @@ components:
           - VOLATILE
           default: PERSISTENT
           description: Storage medium. VOLATILE persists data in an in-memory store for one hour, required for PCI-compliant storage of card security codes.
-    CreateAliasesRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: array
-          minItems: 1
-          maxItems: 20
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/CreateAliasesRequestNew'
-            - $ref: '#/components/schemas/CreateAliasesRequestReference'
     CreateAliasesRequestReference:
       type: object
       required:
@@ -223,21 +282,6 @@ components:
           example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
         format:
           $ref: '#/components/schemas/AliasFormat'
-    ApiError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code.
-        title:
-          type: string
-          description: High-level reason of why the request failed.
-        detail:
-          type: string
-          description: Explanation of what exactly went wrong.
-        href:
-          type: string
-          description: Request URL.
     AliasFormat:
       type: string
       description: Format of the generated alias string.
@@ -252,59 +296,6 @@ components:
       - RAW_UUID
       - UUID
       example: UUID
-    UpdateAliasRequest:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          type: object
-          required:
-          - classifiers
-          properties:
-            classifiers:
-              type: array
-              description: List of tags to classify the value with.
-              items:
-                type: string
-              example:
-              - credit-cards
-              - PII
-    Alias:
-      type: object
-      properties:
-        alias:
-          type: string
-          description: Opaque string used to substitute the raw value.
-          example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
-        format:
-          $ref: '#/components/schemas/AliasFormat'
-    CreateAliasesRequestNew:
-      type: object
-      required:
-      - value
-      - format
-      properties:
-        value:
-          type: string
-          description: Raw value to encrypt and store in the vault.
-          example: '122105155'
-        classifiers:
-          type: array
-          description: List of tags to classify the value with.
-          items:
-            type: string
-          example:
-          - bank-account
-        format:
-          $ref: '#/components/schemas/AliasFormat'
-        storage:
-          type: string
-          enum:
-          - PERSISTENT
-          - VOLATILE
-          default: PERSISTENT
-          description: Storage medium to use.
   responses:
     ApiErrorsResponse:
       description: Something went wrong
@@ -318,6 +309,15 @@ components:
                 minItems: 1
                 items:
                   $ref: '#/components/schemas/ApiError'
+  parameters:
+    alias:
+      name: alias
+      in: path
+      required: true
+      description: Alias to operate on.
+      schema:
+        type: string
+      example: tok_sandbox_bhtsCwFUzoJMw9rWUfEV5e
   securitySchemes:
     basicAuth:
       type: http

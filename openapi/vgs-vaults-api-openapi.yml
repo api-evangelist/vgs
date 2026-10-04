@@ -88,6 +88,21 @@ paths:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
   schemas:
+    ApiError:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code.
+        title:
+          type: string
+          description: High-level reason of why the request failed.
+        detail:
+          type: string
+          description: Explanation of what exactly went wrong.
+        href:
+          type: string
+          description: Request URL.
     VaultCreateRequest:
       type: object
       required:
@@ -125,30 +140,6 @@ components:
         organization_id:
           type: string
           description: Owning organization identifier.
-    ApiError:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code.
-        title:
-          type: string
-          description: High-level reason of why the request failed.
-        detail:
-          type: string
-          description: Explanation of what exactly went wrong.
-        href:
-          type: string
-          description: Request URL.
-  parameters:
-    vaultId:
-      name: vaultId
-      in: path
-      required: true
-      description: Vault identifier.
-      schema:
-        type: string
-      example: tntabcdefg
   responses:
     ApiErrorsResponse:
       description: Something went wrong
@@ -162,6 +153,15 @@ components:
                 minItems: 1
                 items:
                   $ref: '#/components/schemas/ApiError'
+  parameters:
+    vaultId:
+      name: vaultId
+      in: path
+      required: true
+      description: Vault identifier.
+      schema:
+        type: string
+      example: tntabcdefg
   securitySchemes:
     basicAuth:
       type: http
