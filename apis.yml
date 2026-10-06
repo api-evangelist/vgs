@@ -49,7 +49,7 @@ tags_raw:
 - PCI Compliance
 - Vault
 created: '2026-06-20'
-modified: '2026-06-20'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: vgs:vgs-aliases-api
@@ -181,6 +181,10 @@ apis:
   - type: Documentation
     url: https://docs.verygoodsecurity.com/vault/platform/iam
 common:
+- url: https://www.verygoodsecurity.com/blog
+  type: Blog
+- url: https://www.verygoodsecurity.com/blog/rss.xml
+  type: BlogRSS
 - type: AgenticAccess
   url: agentic-access/vgs-agentic-access.yml
 - type: TrustCenter
