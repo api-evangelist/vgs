@@ -64,14 +64,6 @@ paths:
         default:
           $ref: '#/components/responses/ApiErrorsResponse'
 components:
-  parameters:
-    organizationId:
-      name: organizationId
-      in: path
-      required: true
-      description: Organization identifier.
-      schema:
-        type: string
   schemas:
     ApiError:
       type: object
@@ -114,6 +106,14 @@ components:
                 minItems: 1
                 items:
                   $ref: '#/components/schemas/ApiError'
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      required: true
+      description: Organization identifier.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http
