@@ -8,26 +8,10 @@ checked:
 - https://www.indexventures.com/companies/
 - https://www.sequoiacap.com/our-companies/
 - https://www.sequoiacap.com/sitemap.xml
+- netlify/integrations/netlify-integration-edges.yml
 source:
 - opentofu/integrations/opentofu-integration-edges.yml
 edges:
-- partner_name: OpenTofu (opentofu-registry)
-  partner: opentofu
-  partner_match: mirror
-  mirror_match: register
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: opentofu-registry
-  evidence: https://search.opentofu.org/provider/verygoodsecurity/vgs
-  mirror_of: opentofu/integrations/opentofu-integration-edges.yml
-  apps:
-  - verygoodsecurity/vgs
-  listing_count: 1
-  detected: '2026-10-21'
-  detected_by: mirror-platform-listings.py
-  category: infrastructure-as-code provider registry listing
 - partner_name: Andreessen Horowitz (a16z)
   partner: a16z
   partner_match: register
@@ -57,3 +41,38 @@ edges:
     sector: Enterprise
   detected_by: sweep-vc-portfolios.py
   first_seen: '2026-10-21'
+- partner_name: OpenTofu (opentofu-registry)
+  partner: opentofu
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: opentofu-registry
+  evidence: https://search.opentofu.org/provider/verygoodsecurity/vgs
+  mirror_of: opentofu/integrations/opentofu-integration-edges.yml
+  apps:
+  - verygoodsecurity/vgs
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
+- partner_name: Netlify (own)
+  partner: netlify
+  partner_match: mirror
+  mirror_match: domain+verified
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.netlify.com/integrations/very-good-security/
+  mirror_of: netlify/integrations/netlify-integration-edges.yml
+  apps:
+  - Very Good Security
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Search
+  partner_tier: build-plugin
